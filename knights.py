@@ -20,47 +20,27 @@ def canmove(pos, direction, turn):
     else:
         return currentpos
 
-def ispawn(moves, pawns):
-    valmoves = []
-    for pos in moves:
-        spot = tuple(pos)
-        if spot in pawns:
-            pawns.remove(spot)
-            valmoves.append(spot)
-            #return True
-            #return False
-    return valmoves
-
 def movepos(pos):
     moves = []
     turns = [-1, 1]
     directions = ['up', 'down', 'left', 'right']
     for item in directions:
-        #print(item)
         for num in turns:
-            #print(num)
             move = canmove(pos, item, num)
-            #print(move)
             if(move):
-                #print('hi')
                 moves.append(move)
-    #print(moves)
     return moves
 
+def ispawn(moves, pawns):
+    valmoves = []
+    for pos in moves:
+        spot = tuple(pos)
+        if spot in pawns:
+            valmoves.append(spot)
+    return valmoves
+
 def solvable(start, pawns):
-    possible = False
-    if(len(pawns) == 0):
-        possible = True
-    elif start is None:
-        pass
-    else:
-        pos = list(start)
-        moves = movepos(pos)
-        posmoves = ispawn(moves, pawns)
-        print(posmoves)
-        for item in posmoves:
-            solvable(item, pawns)
-    return possible
-start = [5, 6]
-pawns = {(4, 3), (6, 5), (7, 7)}
+
+start = (1, 1)
+pawns = {(2,2), (2,3), (2,4), (3,2), (3,4), (4,2), (4,3), (4,4), (5,5), (5,6), (5,7), (6,5), (6,7), (7,5), (7,6), (7,7)}
 print(solvable(start, pawns))
