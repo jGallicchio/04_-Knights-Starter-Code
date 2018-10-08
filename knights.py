@@ -27,6 +27,7 @@ def posmove(pos, pawns):
     for item in directions:
         for num in turns:
             move = canmove(pos, item, num)
+            #print(move)
             if move:
                 possiblemove = tuple(move)
                 if possiblemove in pawns:
@@ -39,13 +40,23 @@ def ispawn(pos, pawns):
     return pawns
 
 def solvable(start, pawns):
-    if len(pawns) == 0:
-        return True
-    elif start is None:
-        return False
-    else:
+    result = set()
+    moves = posmove(start, pawns)
+    for item in moves:
+        newpawn = set(pawns)
+        newpawn = ispawn(item, newpawn)
+        if len(newpawn) == 0:
+            return True
+        else:
+            result.add(solvable(item, newpawn))
+    return True in result
 
+def findpath():
+    pass
 
-start = (2, 7)
+def findstart():
+    pass
+
+start = (1, 1)
 pawns = {(2,2), (2,3), (2,4), (3,2), (3,4), (4,2), (4,3), (4,4), (5,5), (5,6), (5,7), (6,5), (6,7), (7,5), (7,6), (7,7)}
 print(solvable(start, pawns))
