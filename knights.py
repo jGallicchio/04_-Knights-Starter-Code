@@ -14,10 +14,8 @@ def canmove(pos, direction, turn):
     elif (direction == 'left'):
         currentpos.append(pos[0] - 2)
         currentpos.append(pos[1] + turn)
-    #print(currentpos)
-    if (currentpos[0] > 8 or currentpos[0] < 1 or currentpos[1] > 8 or currentpos[1] < 1):
-        return False
-    else:
+
+    if not (currentpos[0] > 8 or currentpos[0] < 1 or currentpos[1] > 8 or currentpos[1] < 1):
         return currentpos
 
 def posmove(pos, pawns):
@@ -51,12 +49,29 @@ def solvable(start, pawns):
             result.add(solvable(item, newpawn))
     return True in result
 
-def findpath():
-    pass
 
-def findstart():
-    pass
+def findpathhelp(item, paths=[], pathlst=[]):
+    #findpathhelp(start)
+    #findpathhelp('end')
+    if item == 'end':
+        paths.append(pathlst)
+    elif item == 'path':
+        return paths
+    else:
+        pathlst.append(item)
 
-start = (1, 1)
-pawns = {(2,2), (2,3), (2,4), (3,2), (3,4), (4,2), (4,3), (4,4), (5,5), (5,6), (5,7), (6,5), (6,7), (7,5), (7,6), (7,7)}
-print(solvable(start, pawns))
+def findpath(start, pawns):
+    solvable(start, pawns)
+    paths = findpathhelp('path')
+    return paths
+
+def findstart(pawns):
+    board = []
+    startingpoints = []
+    for i in range(8):
+        for j in range(8):
+            board.append((i+1, j+1))
+    for item in board:
+        if solvable(item, pawns) and item not in pawns:
+            startingpoints.append(item)
+    return set(startingpoints)
